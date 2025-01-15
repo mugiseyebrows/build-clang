@@ -1,19 +1,24 @@
+def clone
+    git_clone(https://github.com/llvm/llvm-project.git, :depth=1)
 
-git_clone(https://github.com/llvm/llvm-project.git, :depth=1)
-# dir C:\llvm18 || echo ok
-clear_path()
-call_vcvars()
-use(conda)
-use(cmake)
-install(ninja)
-pushd llvm-project
-    mkdir(build)
-    pushd build
-        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=on -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_INSTALL_PREFIX=C:\llvm18 ..\llvm
-        ninja
+def build
+    clear_path()
+    call_vcvars()
+    use(conda)
+    use(cmake)
+    install(ninja)
+    pushd llvm-project
+        mkdir(build)
+        pushd build
+            cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=on -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_INSTALL_PREFIX=C:\llvm19 ..\llvm
+            ninja
+        popd
+    popd
+
+def install depends on clone and build
+    pushd llvm-project\build
         ninja install
     popd
-popd
-github_upload(C:\llvm18)
+    github_upload(C:\llvm19)
 
 github-workflow 1

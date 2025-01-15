@@ -4,23 +4,32 @@ jobs:
   main:
     runs-on: windows-latest
     steps:
-    - name: main
+    - name: clone
       shell: cmd
       run: |
-        set PATH=C:\Program Files\Git\cmd;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build;C:\Miniconda;C:\Miniconda\Scripts;C:\Windows;C:\Windows\System32
+        set PATH=C:\Program Files\Git\cmd;%PATH%
         if not exist llvm-project git clone --depth 1 https://github.com/llvm/llvm-project.git
+    - name: build
+      shell: cmd
+      run: |
+        set PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build;C:\Miniconda;C:\Miniconda\Scripts;C:\Windows;C:\Windows\System32
         call vcvars64.bat
         where ninja > NUL 2>&1 || pip install ninja
         pushd llvm-project
-        if not exist build mkdir build
-        pushd build
-            cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=on -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_INSTALL_PREFIX=C:\llvm18 ..\llvm
-            ninja
-            ninja install
+            if not exist build mkdir build
+            pushd build
+                cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=on -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_INSTALL_PREFIX=C:\llvm19 ..\llvm
+                ninja
+            popd
         popd
+    - name: install
+      shell: cmd
+      run: |
+        pushd llvm-project\build
+            ninja install
         popd
     - name: upload
       uses: actions/upload-artifact@v4
       with:
-        name: llvm18
-        path: C:\llvm18
+        name: llvm19
+        path: C:\llvm19

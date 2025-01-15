@@ -5,10 +5,12 @@ if not exist llvm-project git clone --depth 1 https://github.com/llvm/llvm-proje
 call vcvars64.bat
 where ninja > NUL 2>&1 || pip install ninja
 pushd llvm-project
-if not exist build mkdir build
-pushd build
-    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=on -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_INSTALL_PREFIX=C:\llvm18 ..\llvm
-    ninja
-    ninja install
+    if not exist build mkdir build
+    pushd build
+        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=on -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_INSTALL_PREFIX=C:\llvm19 ..\llvm
+        ninja
+    popd
 popd
+pushd llvm-project\build
+    ninja install
 popd
