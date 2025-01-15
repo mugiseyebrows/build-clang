@@ -1,8 +1,10 @@
 @echo off
 rem This file is generated from github.pbat, all edits will be lost
-set PATH=C:\Program Files\Git\cmd;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build;C:\Windows;C:\Windows\System32
+set PATH=C:\Program Files\Git\cmd;C:\Miniconda3;C:\Miniconda3\Scripts;%USERPROFILE%\Miniconda3;%USERPROFILE%\Miniconda3\Scripts;C:\mingw1310_64\bin;C:\Windows;C:\Windows\System32
 if not exist llvm-project git clone https://github.com/llvm/llvm-project.git
-call vcvars64.bat
+move /y C:\mingw C:\mingw_
+call pull-mingw
+where ninja > NUL 2>&1 || pip install ninja
 where ninja > NUL 2>&1 || pip install ninja
 pushd llvm-project
     if not exist build mkdir build
@@ -11,7 +13,7 @@ pushd llvm-project
         ninja
     popd
 popd
-call vcvars64.bat
+where ninja > NUL 2>&1 || pip install ninja
 pushd llvm-project\build
     ninja install
 popd

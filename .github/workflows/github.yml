@@ -4,6 +4,8 @@ jobs:
   main:
     runs-on: windows-latest
     steps:
+    - name: checkout
+      uses: actions/checkout@v4
     - name: clone
       shell: cmd
       run: |
@@ -12,8 +14,10 @@ jobs:
     - name: build
       shell: cmd
       run: |
-        set PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build;C:\Windows;C:\Windows\System32
-        call vcvars64.bat
+        set PATH=C:\Miniconda;C:\Miniconda\Scripts;C:\mingw1310_64\bin;C:\Windows;C:\Windows\System32
+        move /y C:\mingw C:\mingw_
+        call pull-mingw
+        where ninja > NUL 2>&1 || pip install ninja
         where ninja > NUL 2>&1 || pip install ninja
         pushd llvm-project
             if not exist build mkdir build
@@ -25,8 +29,8 @@ jobs:
     - name: install
       shell: cmd
       run: |
-        set PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build;C:\Windows;C:\Windows\System32
-        call vcvars64.bat
+        set PATH=C:\Miniconda;C:\Miniconda\Scripts;C:\mingw1310_64\bin;C:\Windows;C:\Windows\System32
+        where ninja > NUL 2>&1 || pip install ninja
         pushd llvm-project\build
             ninja install
         popd
