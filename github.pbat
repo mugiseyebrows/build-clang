@@ -2,10 +2,12 @@ def clone
     github_checkout()
     git_clone(https://github.com/llvm/llvm-project.git, :depth=1)
 
-def build
-    clear_path()
+def compiler
     move(C:\mingw, C:\mingw_)
     call pull-mingw
+
+def build depends on compiler
+    clear_path()
     use(conda)
     install(ninja)
     add_path(C:\mingw1310_64\bin)

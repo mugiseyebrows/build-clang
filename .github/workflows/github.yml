@@ -11,12 +11,15 @@ jobs:
       run: |
         set PATH=C:\Program Files\Git\cmd;%PATH%
         if not exist llvm-project git clone https://github.com/llvm/llvm-project.git
+    - name: compiler
+      shell: cmd
+      run: |
+        move /y C:\mingw C:\mingw_
+        call pull-mingw
     - name: build
       shell: cmd
       run: |
         set PATH=C:\Miniconda;C:\Miniconda\Scripts;C:\mingw1310_64\bin;C:\Windows;C:\Windows\System32
-        move /y C:\mingw C:\mingw_
-        call pull-mingw
         where ninja > NUL 2>&1 || pip install ninja
         where ninja > NUL 2>&1 || pip install ninja
         pushd llvm-project
