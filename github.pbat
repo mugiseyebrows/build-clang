@@ -1,0 +1,15 @@
+
+git_clone(https://github.com/llvm/llvm-project.git, :depth=1)
+dir C:\llvm18 || echo ok
+call_vcvars()
+pushd llvm-project
+    mkdir(build)
+    pushd build
+        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=on -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_INSTALL_PREFIX=C:\llvm18 ..\llvm
+        ninja
+        ninja install
+    popd
+popd
+github_upload(C:\llvm18)
+
+github-workflow 1
