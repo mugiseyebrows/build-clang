@@ -7,10 +7,10 @@ jobs:
     - name: main
       shell: cmd
       run: |
-        set PATH=C:\Program Files\Git\cmd;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build;%PATH%
+        set PATH=C:\Program Files\Git\cmd;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build;C:\Miniconda;C:\Miniconda\Scripts;C:\Windows;C:\Windows\System32
         if not exist llvm-project git clone --depth 1 https://github.com/llvm/llvm-project.git
-        dir C:\llvm18 || echo ok
         call vcvars64.bat
+        where ninja > NUL 2>&1 || pip install ninja
         pushd llvm-project
         if not exist build mkdir build
         pushd build

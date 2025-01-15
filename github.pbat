@@ -1,7 +1,11 @@
 
 git_clone(https://github.com/llvm/llvm-project.git, :depth=1)
-dir C:\llvm18 || echo ok
+# dir C:\llvm18 || echo ok
+clear_path()
 call_vcvars()
+use(conda)
+use(cmake)
+install(ninja)
 pushd llvm-project
     mkdir(build)
     pushd build
