@@ -6,12 +6,11 @@ def compiler
     move(C:\mingw, C:\mingw_)
     call pull-mingw
 
-def build depends on compiler
+def build depends on compiler and clone
     clear_path()
     use(conda)
     install(ninja)
     add_path(C:\mingw1310_64\bin)
-    install(ninja)
     pushd llvm-project
         mkdir(build)
         pushd build
@@ -20,7 +19,7 @@ def build depends on compiler
         popd
     popd
 
-def install depends on clone and build
+def install depends on build
     clear_path()
     use(conda)
     install(ninja)
