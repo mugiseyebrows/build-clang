@@ -14,6 +14,7 @@ def build
     popd
 
 def install depends on clone and build
+    clear_path()
     call_vcvars()
     pushd llvm-project\build
         ninja install
