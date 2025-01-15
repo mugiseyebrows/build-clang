@@ -8,11 +8,11 @@ jobs:
       shell: cmd
       run: |
         set PATH=C:\Program Files\Git\cmd;%PATH%
-        if not exist llvm-project git clone --depth 1 https://github.com/llvm/llvm-project.git
+        if not exist llvm-project git clone https://github.com/llvm/llvm-project.git
     - name: build
       shell: cmd
       run: |
-        set PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build;C:\Miniconda;C:\Miniconda\Scripts;C:\Windows;C:\Windows\System32
+        set PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build;C:\Windows;C:\Windows\System32
         call vcvars64.bat
         where ninja > NUL 2>&1 || pip install ninja
         pushd llvm-project
@@ -25,7 +25,8 @@ jobs:
     - name: install
       shell: cmd
       run: |
-        set PATH=C:\Miniconda;C:\Miniconda\Scripts;%PATH%
+        set PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build;%PATH%
+        call vcvars64.bat
         pushd llvm-project\build
             ninja install
         popd

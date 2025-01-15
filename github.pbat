@@ -4,8 +4,6 @@ def clone
 def build
     clear_path()
     call_vcvars()
-    use(conda)
-    use(cmake)
     install(ninja)
     pushd llvm-project
         mkdir(build)
@@ -16,7 +14,7 @@ def build
     popd
 
 def install depends on clone and build
-    use(conda)
+    call_vcvars()
     pushd llvm-project\build
         ninja install
     popd
