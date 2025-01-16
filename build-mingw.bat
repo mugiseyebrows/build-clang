@@ -1,7 +1,7 @@
 @echo off
 rem This file is generated from build-mingw.pbat, all edits will be lost
 set PATH=C:\Windows\System32;C:\Program Files\7-Zip;C:\Program Files\CMake\bin;C:\mingw1310_64\bin;%PATH%
-if exist C:\mingw move /y C:\mingw C:\mingw_
+if exist C:\mingw64 move /y C:\mingw64 C:\mingw64_
 call pull-mingw
 if not exist llvmorg-19.1.7.zip (
     echo downloading llvmorg-19.1.7.zip
@@ -19,4 +19,4 @@ popd
 pushd llvm-project\build
     ninja install
 popd
-7z a -y C:\llvm19 llvm19-mingw.7z
+7z a -y llvm19-mingw.7z C:\llvm19

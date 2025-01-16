@@ -1,7 +1,7 @@
 @echo off
 rem This file is generated from build-msvc.pbat, all edits will be lost
 set PATH=C:\Windows\System32;C:\Program Files\7-Zip;C:\Program Files\CMake\bin;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build;%PATH%
-if exist C:\mingw move /y C:\mingw C:\mingw_
+if exist C:\mingw64 move /y C:\mingw64 C:\mingw64_
 if not exist llvmorg-19.1.7.zip (
     echo downloading llvmorg-19.1.7.zip
     curl -L -o llvmorg-19.1.7.zip https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-19.1.7.zip
@@ -20,4 +20,4 @@ call vcvars64.bat
 pushd llvm-project\build
     ninja install
 popd
-7z a -y C:\llvm19 llvm19-msvc2020.7z
+7z a -y llvm19-msvc2020.7z C:\llvm19

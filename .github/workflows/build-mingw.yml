@@ -9,7 +9,7 @@ jobs:
     - name: compiler
       shell: cmd
       run: |
-        if exist C:\mingw move /y C:\mingw C:\mingw_
+        if exist C:\mingw64 move /y C:\mingw64 C:\mingw64_
         call pull-mingw
     - name: source
       shell: cmd
@@ -39,7 +39,7 @@ jobs:
         pushd llvm-project\build
             ninja install
         popd
-        7z a -y C:\llvm19 llvm19-mingw.7z
+        7z a -y llvm19-mingw.7z C:\llvm19
     - name: upload
       uses: actions/upload-artifact@v4
       with:

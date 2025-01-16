@@ -11,7 +11,7 @@ def source
     unzip(llvmorg-19.1.7.zip, :t=llvm-project)
 
 def compiler
-    if exist C:\mingw move /y C:\mingw C:\mingw_
+    if exist C:\mingw64 move /y C:\mingw64 C:\mingw64_
     
     call pull-mingw
     
@@ -41,7 +41,7 @@ def install depends on build
     pushd llvm-project\build
         ninja install
     popd
-    zip(C:\llvm19, llvm19-mingw.7z)
+    zip(llvm19-mingw.7z, C:\llvm19)
     github_upload(C:\llvm19)
     github_release(llvm19-mingw.7z)
 
