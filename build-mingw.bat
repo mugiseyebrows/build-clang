@@ -1,7 +1,7 @@
 @echo off
 rem This file is generated from build-mingw.pbat, all edits will be lost
 set PATH=C:\Windows\System32;C:\Program Files\7-Zip;C:\Program Files\CMake\bin;C:\mingw1310_64\bin;%PATH%
-move /y C:\mingw, C:\mingw_ || echo 1 > NUL
+if exist C:\mingw move /y C:\mingw C:\mingw_
 call pull-mingw
 if not exist llvmorg-19.1.7.zip (
     echo downloading llvmorg-19.1.7.zip

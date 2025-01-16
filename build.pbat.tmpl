@@ -15,7 +15,7 @@ def source
     unzip(llvmorg-19.1.7.zip, :t=llvm-project)
 
 def compiler
-    move /y C:\mingw C:\mingw_ || echo 1 > NUL
+    if exist C:\mingw move /y C:\mingw C:\mingw_
     {% if CC == "gcc" %}
     call pull-mingw
     {% endif %}
