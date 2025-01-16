@@ -1,6 +1,7 @@
 
 
 
+workflow-name build-msvc
 
 
 def source
@@ -10,7 +11,7 @@ def source
     unzip(llvmorg-19.1.7.zip, :t=llvm-project)
 
 def compiler
-    move /y C:\mingw, C:\mingw_ || echo 1 > NUL
+    move /y C:\mingw C:\mingw_ || echo 1 > NUL
     
 
 def build depends on compiler and source

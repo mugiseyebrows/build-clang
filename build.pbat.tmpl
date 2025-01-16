@@ -1,9 +1,11 @@
 {% if CC == "gcc" %}
 {% set zip="llvm19-mingw.7z" %}
 {% set CXX="g++" %}
+workflow-name build-mingw
 {% else %}
 {% set zip="llvm19-msvc2020.7z" %}
 {% set CXX="cl" %}
+workflow-name build-msvc
 {% endif %}
 
 def source
@@ -13,7 +15,7 @@ def source
     unzip(llvmorg-19.1.7.zip, :t=llvm-project)
 
 def compiler
-    move /y C:\mingw, C:\mingw_ || echo 1 > NUL
+    move /y C:\mingw C:\mingw_ || echo 1 > NUL
     {% if CC == "gcc" %}
     call pull-mingw
     {% endif %}
