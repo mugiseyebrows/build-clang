@@ -9,7 +9,7 @@ jobs:
     - name: compiler
       shell: cmd
       run: |
-        move /y C:\mingw C:\mingw_
+        move /y C:\mingw, C:\mingw_ || echo 1 > NUL
         call pull-mingw
     - name: source
       shell: cmd

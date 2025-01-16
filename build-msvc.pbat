@@ -10,7 +10,7 @@ def source
     unzip(llvmorg-19.1.7.zip, :t=llvm-project)
 
 def compiler
-    move(C:\mingw, C:\mingw_)
+    move /y C:\mingw, C:\mingw_ || echo 1 > NUL
     
 
 def build depends on compiler and source
