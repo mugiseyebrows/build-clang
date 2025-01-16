@@ -1,20 +1,27 @@
-def clone
+
+
+
+
+
+def source
     github_checkout()
-    # git_clone(https://github.com/llvm/llvm-project.git, :depth=1)
     download(https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-19.1.7.zip, :cache, :v)
     7z rn llvmorg-19.1.7.zip llvm-project-llvmorg-19.1.7 llvm-project
     unzip(llvmorg-19.1.7.zip, :t=llvm-project)
 
 def compiler
     move(C:\mingw, C:\mingw_)
+    
     call pull-mingw
+    
 
-def build depends on compiler and clone
-    clear_path()
+def build depends on compiler and source
+    use(7z)
     use(cmake)
-    use(conda)
-    install(ninja)
+    use(ninja)
+    
     add_path(C:\mingw1310_64\bin)
+    
     pushd llvm-project
         mkdir(build)
         pushd build
@@ -24,10 +31,12 @@ def build depends on compiler and clone
     popd
 
 def install depends on build
-    clear_path()
+    use(7z)
     use(cmake)
-    use(conda)
+    use(ninja)
+    
     add_path(C:\mingw1310_64\bin)
+    
     pushd llvm-project\build
         ninja install
     popd

@@ -11,9 +11,10 @@ jobs:
       run: |
         move /y C:\mingw C:\mingw_
         call pull-mingw
-    - name: clone
+    - name: source
       shell: cmd
       run: |
+        set PATH=C:\Program Files\7-Zip;%PATH%
         if not exist llvmorg-19.1.7.zip (
             echo downloading llvmorg-19.1.7.zip
             curl -L -o llvmorg-19.1.7.zip https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-19.1.7.zip
@@ -23,8 +24,7 @@ jobs:
     - name: build
       shell: cmd
       run: |
-        set PATH=C:\Miniconda;C:\Miniconda\Scripts;C:\mingw1310_64\bin;C:\Windows;C:\Windows\System32
-        where ninja > NUL 2>&1 || pip install ninja
+        set PATH=C:\Program Files\7-Zip;C:\Program Files\CMake\bin;C:\mingw1310_64\bin;%PATH%
         pushd llvm-project
             if not exist build mkdir build
             pushd build
@@ -35,7 +35,7 @@ jobs:
     - name: install
       shell: cmd
       run: |
-        set PATH=C:\Miniconda;C:\Miniconda\Scripts;C:\mingw1310_64\bin;C:\Windows;C:\Windows\System32
+        set PATH=C:\Program Files\7-Zip;C:\Program Files\CMake\bin;C:\mingw1310_64\bin;%PATH%
         pushd llvm-project\build
             ninja install
         popd

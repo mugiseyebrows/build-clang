@@ -1,0 +1,54 @@
+{% if CC == "gcc" %}
+{% set zip="llvm19-mingw.7z" %}
+{% set CXX="g++" %}
+{% else %}
+{% set zip="llvm19-msvc2020.7z" %}
+{% set CXX="cl" %}
+{% endif %}
+
+def source
+    github_checkout()
+    download(https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-19.1.7.zip, :cache, :v)
+    7z rn llvmorg-19.1.7.zip llvm-project-llvmorg-19.1.7 llvm-project
+    unzip(llvmorg-19.1.7.zip, :t=llvm-project)
+
+def compiler
+    move(C:\mingw, C:\mingw_)
+    {% if CC == "gcc" %}
+    call pull-mingw
+    {% endif %}
+
+def build depends on compiler and source
+    use(7z)
+    use(cmake)
+    use(ninja)
+    {% if CC == "gcc" %}
+    add_path(C:\mingw1310_64\bin)
+    {% else %}
+    call_vcvars()
+    {% endif %}
+    pushd llvm-project
+        mkdir(build)
+        pushd build
+            cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_RTTI=on -DLLVM_ENABLE_EH=on -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_INSTALL_PREFIX=C:\llvm19 ..\llvm
+            ninja
+        popd
+    popd
+
+def install depends on build
+    use(7z)
+    use(cmake)
+    use(ninja)
+    {% if CC == "gcc" %}
+    add_path(C:\mingw1310_64\bin)
+    {% else %}
+    call_vcvars()
+    {% endif %}
+    pushd llvm-project\build
+        ninja install
+    popd
+    zip(C:\llvm19, {{ zip }})
+    github_upload(C:\llvm19)
+    github_release({{ zip }})
+
+github-workflow 1
